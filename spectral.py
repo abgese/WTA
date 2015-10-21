@@ -17,10 +17,11 @@ def RatingMatrix( data ):
 	return R
 
 def SimilarityMatrix( R ):
-	S=np.zeros((943,943))
+	S = np.zeros((943,943))
 	for i in range(943):
 		for j in range(i+1,943):
-       			 S[i][j],_=pearsonr(R[i],R[j])
+       			 S[i][j],_ = pearsonr(R[i],R[j])
+       			 S[j][i] = S[i][j]
 	return S
 
 
