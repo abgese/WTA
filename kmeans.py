@@ -30,60 +30,51 @@ def SimilarityMatrix( R ) :
 
 def Kmeans( R , V ) : 
 	k = 2
-    R1 = R[V]
-    centroids = []
-
-    centroids = np.array(randomize_centroids(R1, centroids, k))  
-
-    old_centroids = [[] for i in range(k)] 
-
-    iterations = 0
-    while not (has_converged(centroids, old_centroids, iterations)):
-        iterations = iterations + 1
-
-        clusters = [[] for i in range(k)]
-
-        # assign data points to clusters
-        clusters = euclidean_dist(R1, centroids, clusters)
-
-        # recalculate centroids
-        index = 0
-        for cluster in clusters:
-            old_centroids[index] = centroids[index]
-            clusters[index] = np.array(clusters[index])
-            centroids[index] = R[clusters[index]].sum(axis=0)/len(clusters[index])
-            index = index + 1
-
-    return np.array(clusters[0]) , np.array(clusters[1])
+    	R1 = R[V]
+    	centroids = []
+    	centroids = np.array(randomize_centroids(R1, centroids, k))  
+	old_centroids = [[] for i in range(k)] 
+	iterations = 0
+	while not (has_converged(centroids, old_centroids, iterations)):
+		iterations = iterations + 1
+		clusters = [[] for i in range(k)]
+		clusters = euclidean_dist(R1, centroids, clusters)
+		index = 0
+		for cluster in clusters:
+            		old_centroids[index] = centroids[index]
+            		clusters[index] = np.array(clusters[index])
+            		centroids[index] = R[clusters[index]].sum(axis=0)/len(clusters[index])
+	            	index = index + 1
+	
+    	return np.array(clusters[0]) , np.array(clusters[1])
 
 def euclidean_dist(R, centroids, clusters):
-    for i in range(len(R)):  
-       x = np.sum((R[i]-centroids[0])**2)
-       y = np.sum((R[i]-centroids[1])**2)
-       if x >= y :
-         clusters[0].append(i)
-       else :
-         clusters[1].append(i)
-    for i in range(len(clusters)):
-        if( not clusters[i] ):
-            clusters[i].append(np.random.randint(0,len(R),size=1)),
-
-    return clusters
+    	for i in range(len(R)):  
+    		x = np.sum((R[i]-centroids[0])**2)
+    	 	y = np.sum((R[i]-centroids[1])**2)
+    		if x >= y :
+    			clusters[0].append(i)
+    		else :
+    			clusters[1].append(i)
+    	for i in range(len(clusters)):
+    		if( not clusters[i] ):
+    			clusters[i].append(np.random.randint(0,len(R),size=1)),	
+    	return clusters
 
 
 # randomize initial centroids
 def randomize_centroids(R, centroids, k):
-    for cluster in range(0, k):
-        centroids.append(R[np.random.randint(0, len(R), size=1)])
-    return centroids
+    	for cluster in range(0, k):
+    	    centroids.append(R[np.random.randint(0, len(R), size=1)])
+    	return centroids
 
 
 # check if clusters have converged    
 def has_converged(centroids, old_centroids, iterations):
-    MAX_ITERATIONS = 1000
-    if iterations > MAX_ITERATIONS:
-        return True
-    return np.all( old_centroids == centroids )
+   	MAX_ITERATIONS = 100000
+   	if iterations > MAX_ITERATIONS:
+   		return True
+   	return np.all( old_centroids == centroids )
 
 def AvgSim( S , V ):
 	S1 = S[ V[ : , None] , V ]
@@ -93,14 +84,18 @@ def AvgSim( S , V ):
 
 def main():
 	n = 50
+	print "Reading data..."
 	data = read_data()
+	print "Creating Rating matrix...."
 	R = RatingMatrix( data )
+	print "Creating Similarity matrix....."
 	S = SimilarityMatrix( R )
 	V = np.array( [ i for i in range( len( R ) ) ] )
 	Stack = []
 	maxV = []
 	maxsim = 0
 	Stack.append(V)
+	print "Kmeans clustering......"
 	while( len( Stack ) > 0 ) :
 		Vnew = Stack.pop()
 		V1 , V2 = Kmeans( R , Vnew)
