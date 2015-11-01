@@ -3,6 +3,7 @@ import pandas as pd
 import scipy as sp
 from scipy.stats import pearsonr
 from numpy.linalg import eig
+from iterrefin import iterative_refinement
 
 def read_data() :
 	data = pd.read_csv( "u.tsv" , delimiter= '\t' )
@@ -113,9 +114,13 @@ def main():
 				maxsim = avg2
 		else :
 			Stack.append( V2 )
+	print "Iterative Refinement" 
+	maxVi = iterative_refinement( S , maxV , len(R) )
+	maxsimi = AvgSim( S , maxVi )
 	print maxsim
 	print maxV
+	print maxsimi
+	print maxVi
 
 
 if __name__ == "__main__" : main()
-

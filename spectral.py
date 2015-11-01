@@ -3,6 +3,7 @@ import pandas as pd
 import scipy as sp
 from scipy.stats import pearsonr
 from numpy.linalg import eig
+from iterrefin import iterative_refinement
 
 def read_data() :
 	data = pd.read_csv( "u.tsv" , delimiter= '\t' )
@@ -59,18 +60,18 @@ def AvgSim( S , V ):
 
 def main():
 	n = 50
-	print "reading data"
+	print "Reading data..."
 	data = read_data()
-	print "rating matrix"
+	print "Creating Rating matrix...."
 	R = RatingMatrix( data )
-	print "similarity matrix"
+	print "Creating Similarity matrix....."
 	S = SimilarityMatrix( R )
 	V = np.array( [ i for i in range( len( R ) ) ] )
 	Stack = []
 	maxV = []
 	maxsim = 0
 	Stack.append(V)
-	print "spectral clustering"
+	print "Spectral clustering......"
 	while( len( Stack ) > 0 ) :
 		Vnew = Stack.pop()
 		V1 , V2 = Spectral( S , Vnew)
@@ -81,7 +82,6 @@ def main():
 				maxsim = avg1
 		else :
 			Stack.append( V1 )
-			print(len(V1))
 		if( len( V2 ) < n ) :
 			avg2 = AvgSim( S , V2 )
 			if( maxsim < avg2 ):
@@ -89,9 +89,13 @@ def main():
 				maxsim = avg2
 		else :
 			Stack.append( V2 )
-			print(len(V2))
+	print "Iterative Refinement..."
+	maxVi = iterative_refinement( S , maxV , len(R) )
+	maxsimi = AvgSim( S , maxVi )
 	print maxsim
 	print maxV
+	print maxsimi
+	print maxVi
 
 
 if __name__ == "__main__" : main()
