@@ -103,7 +103,7 @@ def main():
 			Vnew = Stack.pop()
 			V1 , V2 = Kmeans( R , Vnew)
 			if( len( V1 ) > 0 ) :
-			i	f( len( V1 ) < n ) :
+				if( len( V1 ) < n ) :
 					avg1 = AvgSim( S , V1 )
 					if( sim < avg1 ):
 						maxV = V1
