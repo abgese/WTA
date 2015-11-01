@@ -1,7 +1,6 @@
 import numpy as np
 
 def iterative_refinement( S , V , N , k = 10):
-	V = V
 	Vx = np.array([ i for i in range(N) if i not in V ])
 	Vf = np.array([ -1 for i in range(len(V)) ] )
 	while not np.all(V == Vf ):

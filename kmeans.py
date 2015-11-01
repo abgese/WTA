@@ -84,7 +84,6 @@ def AvgSim( S , V ):
 	return avg
 
 def main():
-	n = 50
 	print "Reading data..."
 	data = read_data()
 	print "Creating Rating matrix...."
@@ -92,35 +91,39 @@ def main():
 	print "Creating Similarity matrix....."
 	S = SimilarityMatrix( R )
 	V = np.array( [ i for i in range( len( R ) ) ] )
-	Stack = []
-	maxV = []
-	maxsim = 0
-	Stack.append(V)
+	maxsim = []
+	maxsimi = []
 	print "Kmeans clustering......"
-	while( len( Stack ) > 0 ) :
-		Vnew = Stack.pop()
-		V1 , V2 = Kmeans( R , Vnew)
-		if( len( V1 ) < n ) :
-			avg1 = AvgSim( S , V1 )
-			if( maxsim < avg1 ):
-				maxV = V1
-				maxsim = avg1
-		else :
-			Stack.append( V1 )
-		if( len( V2 ) < n ) :
-			avg2 = AvgSim( S , V2 )
-			if( maxsim < avg2 ):
-				maxV = V2
-				maxsim = avg2
-		else :
-			Stack.append( V2 )
-	print "Iterative Refinement" 
-	maxVi = iterative_refinement( S , maxV , len(R) )
-	maxsimi = AvgSim( S , maxVi )
-	print maxsim
-	print maxV
-	print maxsimi
-	print maxVi
+	for n in range(5,942) :
+		sim = 0
+		Stack = []
+		maxV = []
+		Stack.append(V)
+		while( len( Stack ) > 0 ) :
+			Vnew = Stack.pop()
+			V1 , V2 = Kmeans( R , Vnew)
+			if( len( V1 ) > 0 ) :
+			i	f( len( V1 ) < n ) :
+					avg1 = AvgSim( S , V1 )
+					if( sim < avg1 ):
+						maxV = V1
+						sim = avg1
+				else :
+					Stack.append( V1 )
+			if( len( V2 ) > 0 ) :
+				if( len( V2 ) < n ) :
+					avg2 = AvgSim( S , V2 )
+					if( sim < avg2 ):
+						maxV = V2
+						sim = avg2
+				else :
+					Stack.append( V2 )
+		print "Iterative Refinement" 
+		maxVi = iterative_refinement( S , maxV , len(R) )
+		maxsim.append( sim )
+		maxsimi.append( AvgSim( S , maxVi ) )
+	Final = pd.DataFrame( data = {"GroupSize" : [ i for i in range(2,942) ] , "Maximal Similarity" : maxsim , "Maximal Similarity(Refined) " : maxsimi } )	
+	Final.to_csv("RealUsers_Kmeans.csv")
 
 
 if __name__ == "__main__" : main()
