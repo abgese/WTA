@@ -94,7 +94,7 @@ def main():
 	maxsim = []
 	maxsimi = []
 	print "Kmeans clustering......"
-	for n in range(5,942) :
+	for n in range(5, len(R) - 1 ) :
 		sim = 0
 		Stack = []
 		maxV = []
@@ -122,7 +122,7 @@ def main():
 		maxVi = iterative_refinement( S , maxV , len(R) )
 		maxsim.append( sim )
 		maxsimi.append( AvgSim( S , maxVi ) )
-	Final = pd.DataFrame( data = {"GroupSize" : [ i for i in range(2,942) ] , "Maximal Similarity" : maxsim , "Maximal Similarity(Refined) " : maxsimi } )	
+	Final = pd.DataFrame( data = {"GroupSize" : [ i for i in range( 5 , len(R) - 1 ) ] , "Maximal Similarity" : maxsim , "Maximal Similarity(Refined) " : maxsimi } )	
 	Final.to_csv("RealUsers_Kmeans.csv")
 
 

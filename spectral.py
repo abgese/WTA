@@ -69,9 +69,9 @@ def main():
 	maxsim = []
 	maxsimi = []
 	print "Spectral clustering......"
-	for n in range(5,942):
-		print n
+	for n in range( 5 , len( R ) - 1 ):
 		sim = 0
+		print str(n)+str(sim)
 		Stack = []
 		maxV = []
 		Stack.append( V )
@@ -95,7 +95,8 @@ def main():
 				else :
 					Stack.append( V2 )
 		maxVi = iterative_refinement( S , maxV , len(R) , int( 0.75 * len( maxV ) ) )
+		maxsim.append( sim )
 		maxsimi.append( AvgSim( S , maxVi ) )
-	Final = pd.DataFrame( data = {"GroupSize" : [ i for i in range(2,942) ] , "Maximal Similarity" : maxsim , "Maximal Similarity(Refined) " : maxsimi } )	
+	Final = pd.DataFrame( data = {"GroupSize" : [ i for i in range( 5 , len( R ) - 1 ) ] , "Maximal Similarity" : maxsim , "Maximal Similarity(Refined) " : maxsimi } )	
 	Final.to_csv("RealUsers_Spectral.csv")
 if __name__ == "__main__" : main()
