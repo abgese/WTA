@@ -94,30 +94,57 @@ def main():
 	maxsim = []
 	maxsimi = []
 	print "Kmeans clustering......"
-	for n in range( 2 , len( R ) - 1 ) :
+	for n in range( 2 , 900 ) :
 		sim = 0
 		Stack = []
 		maxV = []
 		Stack.append(V)
+		flag = True
 		while( len( Stack ) > 0 ) :
 			Vnew = Stack.pop()
 			V1 , V2 = Kmeans( R , Vnew)
 			if( len( V1 ) > 0 ) :
-				if( len( V1 ) < n ) :
+				if( len(V1) > n - 10 and len( V1 ) < n + 10 )  :
+					avg1 = AvgSim( S , V1 )
+					if( sim < avg1 or ( len(maxV) <= n - 10 and len(maxV) > 0 ) ):
+						maxV = V1
+						sim = avg1
+						flag = False
+				elif( len(V1) >= n):
+					Stack.append( V1 )
+				else:
+					if( len(V1) > len(maxV) ):
+						avg1 = AvgSim( S , V1 )
+						maxV = V1
+						sim = avg1
+
+			if( len( V2 ) > 0 ) :
+				if( len( V2 ) > n - 10 and len( V2 ) < n + 10 ) :
+					avg2 = AvgSim( S , V2 )
+					if( sim < avg2 or (len(maxV) <= n - 10 and len(maxV) > 0) ):
+						maxV = V2
+						sim = avg2
+						flag = False
+				elif(len(V2) >= n):
+					Stack.append( V2 )
+				else :
+					if( len( V2 ) >	len( maxV) ):
+						avg2 = AvgSim( S , V2 )
+						maxV = V2
+						sim =avg2
+
+
+			if( flag ) :
+				if( len(V1) < n and len(V1) > 0): 
 					avg1 = AvgSim( S , V1 )
 					if( sim < avg1 ):
 						maxV = V1
 						sim = avg1
-				else :
-					Stack.append( V1 )
-			if( len( V2 ) > 0 ) :
-				if( len( V2 ) < n ) :
+				if( len(V2) < n and len(V2) > 0 ): 
 					avg2 = AvgSim( S , V2 )
 					if( sim < avg2 ):
 						maxV = V2
 						sim = avg2
-				else :
-					Stack.append( V2 )
 		if( n > 4 ) :
 			maxVi = iterative_refinement( S , maxV , len(R) , int(0.75*len(maxV))  )
 			maxsimi.append( AvgSim( S , maxVi ) )
@@ -125,7 +152,8 @@ def main():
 			maxVi = maxV
 			maxsimi.append( sim )
 		maxsim.append( sim )
-	Final = pd.DataFrame( data = {"GroupSize" : [ i for i in range( 2 , len( R ) - 1 ) ] , "Maximal Similarity" : maxsim , "Maximal Similarity(Refined) " : maxsimi } )	
+		print str(n)+" "+str(len(maxVi))
+	Final = pd.DataFrame( data = {"GroupSize" : [ i for i in range( 2 , 900 ) ] , "Maximal Similarity" : maxsim , "Maximal Similarity(Refined) " : maxsimi } )	
 	Final.to_csv("RealUsers_Kmeans.csv")
 
 
