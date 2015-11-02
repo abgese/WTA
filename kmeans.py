@@ -24,7 +24,7 @@ def SimilarityMatrix( R ) :
 	m = len( R )
 	S = np.zeros( ( m , m ) )
 	for i in range( m ) :
-		for j in range( i+1 , m ) :
+		for j in range( i , m ) :
        			 S[ i ][ j ] , _ = pearsonr( R[ i ] , R[ j ] )
        			 S[ j ][ i ] = S[ i ][ j ]
 	return S
@@ -118,7 +118,6 @@ def main():
 						sim = avg2
 				else :
 					Stack.append( V2 )
-		print "Iterative Refinement" 
 		if( n > 4 ) :
 			maxVi = iterative_refinement( S , maxV , len(R) , int(0.75*len(maxV))  )
 			maxsimi.append( AvgSim( S , maxVi ) )

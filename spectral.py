@@ -24,7 +24,7 @@ def SimilarityMatrix( R ) :
 	m = len( R )
 	S = np.zeros( ( m , m ) )
 	for i in range( m ) :
-		for j in range( i+1 , m ) :
+		for j in range( i , m ) :
        			 S[ i ][ j ] , _ = pearsonr( R[ i ] , R[ j ] )
        			 S[ j ][ i ] = S[ i ][ j ]
 	return S
