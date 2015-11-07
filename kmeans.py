@@ -6,19 +6,8 @@ from numpy.linalg import eig
 from iterrefin import iterative_refinement
 
 def read_data() :
-	data = pd.read_csv( "u.tsv" , delimiter= '\t' )
+	data = pd.read_csv( "Real_Users.csv" , delimiter= '\t' )
 	return data
-
-def RatingMatrix( data ) :
-	m = len( data.groupby( 'User' ).aggregate( 'count' ) )
-	n = len( data.groupby( 'Movie' ).aggregate( 'count' ) )
-	R = np.zeros( ( m , n ) )
-	for i in data.index :
-		u = data.User[ i ]
-		m = data.Movie[ i ]
-		R[ u - 1 ][ m - 1 ]=data.Rating[ i ]
-
-	return R
 
 def SimilarityMatrix( R ) :
 	m = len( R )
@@ -87,7 +76,7 @@ def main():
 	print "Reading data..."
 	data = read_data()
 	print "Creating Rating matrix...."
-	R = RatingMatrix( data )
+	R = data.as_matrix()
 	print "Creating Similarity matrix....."
 	S = SimilarityMatrix( R )
 	V = np.array( [ i for i in range( len( R ) ) ] )
