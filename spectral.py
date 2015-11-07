@@ -6,7 +6,7 @@ from numpy.linalg import eig
 from iterrefin import iterative_refinement
 
 def read_data() :
-	data = pd.read_csv( "Real_Users.csv" , delimiter= '\t' )
+	data = pd.read_csv( "Real_Users.csv")
 	return data
 
 def SimilarityMatrix( R ) :
