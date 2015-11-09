@@ -9,12 +9,20 @@ def read_data() :
 	data = pd.read_csv( "Real_Users.csv")
 	return data
 
+def cos_cor( x , y ):
+	x2 = np.sum(x**2)
+	y2 = np.sum(y**2)
+	ans = np.sum(x*y)
+	ans = ans/(x2**(0.5))
+	ans = ans/(y2**(0.5))
+	return ans
+
 def SimilarityMatrix( R ) :
 	m = len( R )
 	S = np.zeros( ( m , m ) )
 	for i in range( m ) :
 		for j in range( i , m ) :
-       			 S[ i ][ j ] , _ = pearsonr( R[ i ] , R[ j ] )
+       			 S[ i ][ j ] , _ = cos_cor( R[ i ] , R[ j ] )
        			 S[ j ][ i ] = S[ i ][ j ]
 	return S
 
