@@ -2,27 +2,21 @@ import numpy as np
 import pandas as pd
 import scipy as sp
 from scipy.stats import pearsonr
-from numpy.linalg import eig
+from numpy.linalg import svd
 from iterrefin import iterative_refinement
+from rationcut import RationCut
+from Correlation import cos_cor,pears_cor
 
-def read_data() :
-	data = pd.read_csv( "Real_Users.csv")
+def read_data( filename ) :
+	data = pd.DataFrame.from_csv('Data/'+filename )
 	return data
 	
-def cos_cor( x , y ):
-	x2 = np.sum(x**2)
-	y2 = np.sum(y**2)
-	ans = np.sum(x*y)
-	ans = ans/(x2**(0.5))
-	ans = ans/(y2**(0.5))
-	return ans
-
 def SimilarityMatrix( R ) :
 	m = len( R )
 	S = np.zeros( ( m , m ) )
 	for i in range( m ) :
 		for j in range( i , m ) :
-       			 S[ i ][ j ] , _ = cos_cor( R[ i ] , R[ j ] )
+       			 S[ i ][ j ]  = pears_cor( R[ i ] , R[ j ] )
        			 S[ j ][ i ] = S[ i ][ j ]
 	return S
 
@@ -37,11 +31,12 @@ def Laplacian( S ) :
 
 def Spectral( S , V ):
 	S1 = S[ V[ : , None ] , V ]
+	S1 = RationCut( S1 )
 	L = Laplacian( S1 )
-	values , vectors = eig( L )
+	vectors , values , _ = svd( L )
 	vect = vectors[ : , values.argsort( )[ 1 ] ]
-	V1=[]
-	V2=[]
+	V1 = []
+	V2 = []
 	for i in range( len( vect ) ) :
 	    if( vect[ i ] < 0 ) : 
 	        V1.append( V[ i ] )
@@ -50,81 +45,57 @@ def Spectral( S , V ):
 	return np.array( V1 ),np.array( V2 )
 
 def AvgSim( S , V ):
-	S1 = S[ V[ : , None] , V ]
-	tot = np.sum( S1 )
-	avg = tot / np.size( S1 )
+	avg = 0
+	if len( V ) > 0:
+		S1 = S[ V[ : , None] , V ]
+		avg = np.average( S1 )
 	return avg
 
+
 def main():
-	print "Reading data..."
-	data = read_data()
-	print "Creating Rating matrix...."
-	R = data.as_matrix()
-	print "Creating Similarity matrix....."
-	S = SimilarityMatrix( R )
-	V = np.array( [ i for i in range( len( R ) ) ] )
-	maxsim = []
-	maxsimi = []
-	print "Spectral clustering......"
-	for n in range( 2 , 900 ):
-		sim = 0
-		Stack = []
-		maxV = []
-		Stack.append(V)
-		flag = True
-		while( len( Stack ) > 0 ) :
-			Vnew = Stack.pop()
-			V1 , V2 = Spectral( R , Vnew)
-			if( len( V1 ) > 0 ) :
-				if( len(V1) > n - 10 and len( V1 ) < n + 10 )  :
-					avg1 = AvgSim( S , V1 )
-					if( sim < avg1 or ( len(maxV) <= n - 10 and len(maxV) > 0 ) ):
+	inp = ["Real_Users.csv" , "RandomAttack.csv" , "AverageAttack.csv" , "BandwagonAttack.csv" ]
+	out = ["RealUsers_Spectral.csv","RandomAttack_Spectral.csv","AverageAttack_Spectral.csv","BandwagonAttack_Spectral.csv"]
+	for ctr in range(4):
+		print "Reading data... "+inp[ctr]+" "+out[ctr]
+		data = read_data( inp[ctr] )
+		print "Creating Rating matrix...."
+		R = data.as_matrix()
+		print "Creating Similarity matrix....."
+		S = SimilarityMatrix( R )
+		V = np.array( [ i for i in range( len( R ) ) ] )
+		maxsim = []
+		maxsimi = []
+		print "Spectral clustering......"
+		for n in range( 2 , 900 ):
+			sim = 0
+			Stack = []
+			maxV = []
+			Stack.append(V)
+			flag = True
+			while( len( Stack ) > 0 ) :
+				Vnew = Stack.pop()
+				V1 , V2 = Spectral( S , Vnew)
+				if( len(V1) < n ):
+					if( AvgSim( S , V1 ) > sim and len( V1 ) > 1 ):
 						maxV = V1
-						sim = avg1
-						flag = False
-				elif( len(V1) >= n and len(V1) < len(Vnew)):
+						sim = AvgSim( S , V1 ) 
+				elif(len(V1) != len(Vnew)):
 					Stack.append( V1 )
-				else:
-					if( len(V1) > len(maxV) and len( V1 ) < n):
-						avg1 = AvgSim( S , V1 )
-						maxV = V1
-						sim = avg1
-
-			if( len( V2 ) > 0 ) :
-				if( len( V2 ) > n - 10 and len( V2 ) < n + 10 ) :
-					avg2 = AvgSim( S , V2 )
-					if( sim < avg2 or (len(maxV) <= n - 10 and len(maxV) > 0) ):
+				if( len( V2 ) < n):
+					if( AvgSim(S , V2) > sim and len(V2) > 1):
 						maxV = V2
-						sim = avg2
-						flag = False
-				elif(len(V2) >= n and len(V2) < len(Vnew) ):
+						sim = AvgSim( S , V2 )
+				elif(len(V2) != len(Vnew)):
 					Stack.append( V2 )
-				else :
-					if( len( V2 ) >	len( maxV) and len( V2 ) < n ):
-						avg2 = AvgSim( S , V2 )
-						maxV = V2
-						sim = avg2
 
-
-			if( flag ) :
-				if( len(V1) < n and len(V1) > 0): 
-					avg1 = AvgSim( S , V1 )
-					if( sim < avg1 ):
-						maxV = V1
-						sim = avg1
-				if( len(V2) < n and len(V2) > 0 ): 
-					avg2 = AvgSim( S , V2 )
-					if( sim < avg2 ):
-						maxV = V2
-						sim = avg2
-		if( n > 4 ) :
-			maxVi = iterative_refinement( S , maxV , len(R) , int(0.75*len(maxV))  )
-			maxsimi.append( AvgSim( S , maxVi ) )
-		else:
-			maxVi = maxV
-			maxsimi.append( sim )
-		maxsim.append( sim )
-		print str(n)+" "+str(len(maxVi))
-	Final = pd.DataFrame( data = {"GroupSize" : [ i for i in range( 2 , 900 ) ] , "Maximal Similarity" : maxsim , "Maximal Similarity(Refined) " : maxsimi } )	
-	Final.to_csv("RealUsers_Spectral.csv")
+			if( n > 4 ) :
+				maxVi = iterative_refinement( S , maxV , len(R) , int(0.75*len(maxV))  )
+				maxsimi.append( AvgSim( S , maxVi ) )
+			else:
+				maxVi = maxV
+				maxsimi.append( sim )
+			maxsim.append( sim )
+			print str(n)+" "+str(len(maxVi))
+		Final = pd.DataFrame( data = {"GroupSize" : [ i for i in range( 2 , 900 ) ] , "Maximal Similarity" : maxsim , "Maximal Similarity(Refined) " : maxsimi } )	
+		Final.to_csv( 'Data/'+out[ ctr ] )
 if __name__ == "__main__" : main()

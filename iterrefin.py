@@ -1,4 +1,5 @@
 import numpy as np
+from rationcut import RationCut
 
 def iterative_refinement( S , V , N , k = 10):
 	if k > 10 :
@@ -12,13 +13,16 @@ def iterative_refinement( S , V , N , k = 10):
 			Vxsort = Vx[ avg.argsort() ]
 			Vx = Vxsort[ : -1 ]
 			V = np.append(V,Vx[ -1 : ])
+			V.sort()
+			Vx.sort()
 		for i in range(k):
 			avg = S[ V[ : , None ] , V ].sum( axis = 1 )
 			Vsort =V[ avg.argsort()[ : : -1 ] ]
 			V = V[ : -1 ]
 			Vx = np.append( Vx , V[ -1 : ])
-		V.sort()
-		Vx.sort()
+			V.sort()
+			Vx.sort()
+		
 	return Vf 
 
 
