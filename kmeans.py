@@ -21,11 +21,12 @@ def SimilarityMatrix( R ) :
        			 S[ j ][ i ] = S[ i ][ j ]
 	return S
 
-def Kmeans( R , V ) : 
+def Kmeans( R , S , V ) : 
 	k = 2
     	R1 = R[V]
     	centroids = []
-    	centroids = np.array(randomize_centroids(R1, centroids, k))  
+    	S1 = S[ V[ : , None ] , V ]
+    	centroids = np.array(randomize_centroids(R1, S1 , centroids, k))  
 	old_centroids = [[] for i in range(k)] 
 	iterations = 0
 	while not (has_converged(centroids, old_centroids, iterations)):
@@ -56,9 +57,18 @@ def euclidean_dist(R, centroids, clusters):
 
 
 # randomize initial centroids
-def randomize_centroids(R, centroids, k):
-    	for cluster in range(0, k):
-    	    centroids.append(R[np.random.randint(0, len(R), size=1)])
+def randomize_centroids(R, S , centroids, k):
+    	mini = 0
+    	minj = 0
+    	minval = S[0][0]
+    	for i in  range( len(S) ):
+    		for j in range( i , len(S) ):
+    			if( S[i][j] < minval ):
+    				minval = S[i][j]
+    				mini = i
+    				minj = j
+    	centroids.append( R[i] )
+    	centroids.append( R[j] )
     	return centroids
 
 
