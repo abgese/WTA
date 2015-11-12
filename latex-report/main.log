@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.11)  12 NOV 2015 12:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.11)  12 NOV 2015 19:43
 entering extended mode
 **main.tex
 (main.tex
@@ -503,27 +503,27 @@ Underfull \hbox (badness 10000) in paragraph at lines 76--78
 [2
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 85--95
+Underfull \hbox (badness 10000) in paragraph at lines 84--96
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--95
+Underfull \hbox (badness 10000) in paragraph at lines 84--96
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--95
+Underfull \hbox (badness 10000) in paragraph at lines 84--96
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--95
+Underfull \hbox (badness 10000) in paragraph at lines 84--96
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--95
+Underfull \hbox (badness 10000) in paragraph at lines 84--96
 
  []
 
@@ -542,79 +542,80 @@ Underfull \hbox (badness 10000) in paragraph at lines 85--95
  [6
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 110--112
+Underfull \hbox (badness 10000) in paragraph at lines 111--114
 
  []
 
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 117.
 
-Underfull \hbox (badness 10000) in paragraph at lines 113--115
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 117.
+
+Underfull \hbox (badness 10000) in paragraph at lines 118--120
 
  []
 
 [1
 
-]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 124.
+] [2
 
- ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 124.
- [2
-
-] [3]
-<fig_1.jpg, id=34, 312.41719pt x 116.68594pt>
+] [3] <fig_1.jpg, id=34, 312.41719pt x 116.68594pt>
 File: fig_1.jpg Graphic file (type jpg)
  <use fig_1.jpg>
-Package pdftex.def Info: fig_1.jpg used on input line 162.
+Package pdftex.def Info: fig_1.jpg used on input line 169.
 (pdftex.def)             Requested size: 284.53366pt x 170.7357pt.
- [4 <./fig_1.jpg>] <fig_2.jpg, id=38, 510.40688pt x 605.26125pt>
+
+[4 <./fig_1.jpg>] <fig_2.jpg, id=38, 510.40688pt x 605.26125pt>
 File: fig_2.jpg Graphic file (type jpg)
- <use fig_2.jpg>
-Package pdftex.def Info: fig_2.jpg used on input line 185.
+
+<use fig_2.jpg>
+Package pdftex.def Info: fig_2.jpg used on input line 192.
 (pdftex.def)             Requested size: 284.54085pt x 455.24701pt.
  [5
 
- <./fig_2.jpg>] <fig_3.jpg, id=42, 485.56406pt x 609.77812pt>
+ <./fig_2.jpg>]
+<fig_3.jpg, id=42, 485.56406pt x 609.77812pt>
 File: fig_3.jpg Graphic file (type jpg)
  <use fig_3.jpg>
-Package pdftex.def Info: fig_3.jpg used on input line 195.
+Package pdftex.def Info: fig_3.jpg used on input line 202.
 (pdftex.def)             Requested size: 284.5243pt x 455.25757pt.
  [6
 
  <./fig_3.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 202--204
+Underfull \hbox (badness 10000) in paragraph at lines 209--211
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 204--210
+Underfull \hbox (badness 10000) in paragraph at lines 211--217
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 204--210
+Underfull \hbox (badness 10000) in paragraph at lines 211--217
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 204--210
+Underfull \hbox (badness 10000) in paragraph at lines 211--217
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 204--210
+Underfull \hbox (badness 10000) in paragraph at lines 211--217
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 204--210
+Underfull \hbox (badness 10000) in paragraph at lines 211--217
 
  []
 
 
-Underfull \hbox (badness 1412) in paragraph at lines 221--221
+Underfull \hbox (badness 1412) in paragraph at lines 228--228
 []\OT1/cmr/m/n/12 Random Sub-set Ap-
  []
 
@@ -623,30 +624,30 @@ Underfull \hbox (badness 1412) in paragraph at lines 221--221
 ] <fig_4.jpg, id=50, 347.79938pt x 215.30438pt>
 File: fig_4.jpg Graphic file (type jpg)
  <use fig_4.jpg>
-Package pdftex.def Info: fig_4.jpg used on input line 241.
+Package pdftex.def Info: fig_4.jpg used on input line 248.
 (pdftex.def)             Requested size: 284.53926pt x 199.17314pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 236--248
+Underfull \hbox (badness 10000) in paragraph at lines 243--255
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 236--248
+Underfull \hbox (badness 10000) in paragraph at lines 243--255
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 236--248
+Underfull \hbox (badness 10000) in paragraph at lines 243--255
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 236--248
+Underfull \hbox (badness 10000) in paragraph at lines 243--255
 
  []
 
 
-Underfull \hbox (badness 1412) in paragraph at lines 258--258
+Underfull \hbox (badness 1412) in paragraph at lines 265--265
 []\OT1/cmr/m/n/12 Random Sub-set Ap-
  []
 
@@ -656,17 +657,17 @@ Underfull \hbox (badness 1412) in paragraph at lines 258--258
 File: fig_5.jpg Graphic file (type jpg)
 
 <use fig_5.jpg>
-Package pdftex.def Info: fig_5.jpg used on input line 278.
+Package pdftex.def Info: fig_5.jpg used on input line 285.
 (pdftex.def)             Requested size: 284.52977pt x 341.46272pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 273--282
+Underfull \hbox (badness 10000) in paragraph at lines 280--289
 
  []
 
 [9
 
  <./fig_5.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 285--287
+Underfull \hbox (badness 10000) in paragraph at lines 292--294
 
  []
 
@@ -686,11 +687,11 @@ Here is how much of TeX's memory you used:
  7076 multiletter control sequences out of 15000+200000
  8881 words of font info for 32 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 27i,9n,24p,976b,281s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,9n,24p,630b,281s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Fil
 es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (17 pages, 277957 bytes).
+Output written on main.pdf (17 pages, 277290 bytes).
 PDF statistics:
  75 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

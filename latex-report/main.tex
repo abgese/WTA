@@ -108,13 +108,19 @@ Date: 17-08-2015\\
 \pagenumbering{arabic}
 \section{Introduction}
 
-With increased computing demand, the distributed systems are also growing faster. For using these distributed systems efficiently, tasks allocation to each node in the network should be appropriate. If a proper task allocation scheme is not used, few nodes may be highly loaded while others may be idle. Waiting time of the tasks should also be less. To tackle such problems, tasks arriving at the heavily loaded nodes need to be transferred to the nodes which are lightly loaded.
+With increase in popularity of online entertainment websites like Netflix, Amazon and Flipkart, the dependence on recommender systems is increasing.
+These recommender systems are responsible for recommending items to each user based on the information available pertaining to the user.One of the more popular methods in recommender systems is collaborative filtering, which groups users with similar tastes and then chooses the items to recommend to the target user from the aggregate of preferences.   
 \\
 \par
-	The classification of task allocation schemes can be done in two perspectives: whether it is centralized or distributed and on the basis of load information available at each node. In centralized approach, one specific node will decide everything about allocating tasks. But this approach is only suited for small systems. In distributed approach, all the nodes present in the system contribute to perform load balancing operations. It provides the most important characteristics required for the distributed systems i.e., scalability and high fault tolerance. On the basis of load information of remote nodes also, there are two possibilities. If the load information of other nodes is not available, the decision about transfer of tasks is made on the basis of its own load. A random destination node is selected for transfer of task. With availability of remote information, the lightest remote node will be selected as a destination for transferring the task.
-\\
-\par However, using information about load for decision making is not an easy task. Because in practical, load information is outdated. In cases of periodic updation, it remains old till next update. If updated on status change of a node, then it remains old due to communication delay. The idea of this work is to keep load information fresh so that the bad effect of outdated load information can be reduced. Nearest neighbor is the approach used for the same. Communication happens only between neighboring nodes and whenever load of some node is being changed, all its neighbors are immediately updated. The performance of this approach is tested comparing to the previous approaches which are using randomness.
-
+	But Collaborative filtering based recommender systems are vulnerable to shilling attacks. In such attacks, the attackers generate a set of fake user profiles and give fake ratings to reduce or increase the recommendations of a certain targeted item. Shilling attacks can be divided into two types-
+	  \begin{itemize}
+	  	\item Push attacks - These attacks are designed to increase the popularity of a certain item so that it is recommended to more users.
+	  	\item Nuke attacks - These attacks are designed to reduce popularity of a rival product so that its recommendation reduces.
+	  	\\
+	  \end{itemize}
+\par 
+    In this project, our main aim is to find the cluster of fake attack profiles. For solving this problem we assume that the fake attack profiles are a highly correlated set of users since their pattern of attack will be very similar. For finding this set of highly correlated users, we apply spectral and K-means clustering on the dataset. Since the number of items rated by each user is a small subset of the total number of items, the rating matrix (users*rating)
+    is sparse. To overcome this, a similarity matrix is generated. The clustering algorithms are then applied to this similarity matrix to find the highest correlated matrix below a threshold size n.
  
 \clearpage
 \section{Literature Survey}
@@ -123,7 +129,7 @@ The task allocation schemes show bad performance because of old load information
 
 \begin{itemize}
   \item Location strategy: Initially, a subset of nodes are selected randomly by the local node. Then the node which is having lightest load is selected. The subset of nodes is taken so that only limited number of nodes need to be searched for selecting the destination node. This is a tuning parameter in the algorithm and tries to reduce the effect of outdated load information.
-  \item Information strategy: In Random Subset, each and every node doesn’t store the load related information of the all the nodes. The load information is collected on demand whenever it is required. For selecting the final destination to transfer the task, all the nodes present in the subset of local node are probed by it.
+  \item Information strategy: In Random Subset, each and every node dosen’t store the load related information of the all the nodes. The load information is collected on demand whenever it is required. For selecting the final destination to transfer the task, all the nodes present in the subset of local node are probed by it.
   \item Transfer strategy: Each and every time a task is arrived, the local node tries to determine on which node it should be allocated. If there is some node found on probing which has lesser load than others and that of local node, the task is transferred to that node. If it’s not found, task is executed by local node itself.
 \end{itemize}
 
