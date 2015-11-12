@@ -71,20 +71,26 @@ def main():
 			Stack = []
 			maxV = []
 			Stack.append(V)
-			flag = True
+			flag = False
 			while( len( Stack ) > 0 ) :
 				Vnew = Stack.pop()
 				V1 , V2 = Spectral( S , Vnew)
+				if( len(V1) == 0 and len(maxV) == 0):
+					maxV = V2
+					sim = AvgSim( S , V2 )
+					flag = True
 				if( len(V1) < n ):
-					if( AvgSim( S , V1 ) > sim and len( V1 ) > 1 ):
+					if( (AvgSim( S , V1 ) > sim and len( V1 ) > n/2) or flag ):
 						maxV = V1
-						sim = AvgSim( S , V1 ) 
+						sim = AvgSim( S , V1 )
+						flag = False
 				elif(len(V1) != len(Vnew)):
 					Stack.append( V1 )
 				if( len( V2 ) < n):
-					if( AvgSim(S , V2) > sim and len(V2) > 1):
+					if( ( AvgSim(S , V2) > sim and len(V2) > n/2 ) or flag ):
 						maxV = V2
 						sim = AvgSim( S , V2 )
+						flag = False
 				elif(len(V2) != len(Vnew)):
 					Stack.append( V2 )
 

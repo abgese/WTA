@@ -32,24 +32,24 @@ def Kmeans( R , S , V ) :
 	while not (has_converged(centroids, old_centroids, iterations)):
 		iterations = iterations + 1
 		clusters = [[] for i in range(k)]
-		clusters = euclidean_dist(R1, centroids, clusters)
+		clusters = euclidean_dist(R1, centroids, clusters , V )
 		index = 0
 		for cluster in clusters:
-            		old_centroids[index] = centroids[index]
-            		clusters[index] = np.array(clusters[index])
-            		centroids[index] = R[clusters[index]].sum(axis=0)/len(clusters[index])
-	            	index = index + 1
+            			old_centroids[index] = centroids[index]
+            			clusters[index] = np.array(clusters[index])
+            			centroids[index] = R[clusters[index]].sum(axis=0)/len(clusters[index])
+	            		index = index + 1
 	
     	return np.array(clusters[0]) , np.array(clusters[1])
 
-def euclidean_dist(R, centroids, clusters):
+def euclidean_dist(R, centroids, clusters , V):
     	for i in range(len(R)):  
     		x = np.sum((R[i]-centroids[0])**2)
     	 	y = np.sum((R[i]-centroids[1])**2)
     		if x >= y :
-    			clusters[0].append(i)
+    			clusters[0].append(V[i])
     		else :
-    			clusters[1].append(i)
+    			clusters[1].append(V[i])
     	for i in range(len(clusters)):
     		if( not clusters[i] ):
     			clusters[i].append(np.random.randint(0,len(R),size=1)),	
@@ -67,8 +67,8 @@ def randomize_centroids(R, S , centroids, k):
     				minval = S[i][j]
     				mini = i
     				minj = j
-    	centroids.append( R[i] )
-    	centroids.append( R[j] )
+    	centroids.append( R[ mini ] )
+    	centroids.append( R[ minj ] )
     	return centroids
 
 
@@ -98,26 +98,36 @@ def main():
 		V = np.array( [ i for i in range( len( R ) ) ] )
 		maxsim = []
 		maxsimi = []
-		print "Spectral clustering......"
+		print "Kmeans clustering......"
 		for n in range( 2 , 900 ):
 			sim = 0
 			Stack = []
 			maxV = []
 			Stack.append(V)
-			flag = True
+			flag = False
 			while( len( Stack ) > 0 ) :
 				Vnew = Stack.pop()
-				V1 , V2 = Kmeans( R , Vnew)
-				if( len(V1) < n ):
-					if( AvgSim(S , V1) > sim and len(V1) > 1):
+				V1 , V2 = Kmeans( R , S , Vnew)
+				if( len(V1) == 0 and len(maxV) == 0):
+					maxV = V2
+					sim = AvgSim( S , V2 )
+					flag = True
+				if( len(V2) == 0 and len(maxV) == 0):
+					maxV = V1
+					sim = AvgSim( S , V1 )
+					flag = True
+				if( len(V1) < n  and len(V1) > 1):
+					if( (AvgSim(S , V1) > sim and len(V1) > n/2) or flag ):
 						maxV = V1
 						sim = AvgSim(S , V1 ) 
+						flag = False
 				elif(len(V1) != len(Vnew)):
 					Stack.append( V1 )
-				if( len( V2 ) < n):
-					if( AvgSim(S , V2) > sim and len( V2 ) > 1):
+				if( len( V2 ) < n and len(V2) > 1):
+					if( ( AvgSim(S , V2) > sim and len( V2 ) > n/2) or flag ):
 						maxV = V2
 						sim = AvgSim( S , V2 )
+						flag = False
 				elif(len(V2) != len(Vnew)):
 					Stack.append( V2 )
 			if( n > 4 ) :
