@@ -71,7 +71,6 @@ def has_converged(centroids, old_centroids, iterations):
 
 def AvgSim( S , V ):
 	S1 = S[ V[ : , None] , V ]
-	S1 = RationCut( S1 )
 	tot = np.sum( S1 )
 	avg = tot / np.size( S1 )
 	return avg
@@ -97,19 +96,18 @@ def main():
 			Stack.append(V)
 			flag = True
 			while( len( Stack ) > 0 ) :
-				print len(Stack)
 				Vnew = Stack.pop()
-				V1 , V2 = K( R , Vnew)
+				V1 , V2 = Kmeans( R , Vnew)
 				if( len(V1) < n ):
-					if( AvgSim(V1) > sim and len(V1) > 1):
+					if( AvgSim(S , V1) > sim and len(V1) > 1):
 						maxV = V1
-						sim = AvgSim( V1 ) 
+						sim = AvgSim(S , V1 ) 
 				elif(len(V1) != len(Vnew)):
 					Stack.append( V1 )
 				if( len( V2 ) < n):
-					if( AvgSim(V2) > sim and len( V2 ) > 1):
+					if( AvgSim(S , V2) > sim and len( V2 ) > 1):
 						maxV = V2
-						sim = AvgSim( V2 )
+						sim = AvgSim( S , V2 )
 				elif(len(V2) != len(Vnew)):
 					Stack.append( V2 )
 			if( n > 4 ) :
